@@ -10,9 +10,9 @@ dashAceEditor <- function(id=NULL, annotations=NULL, autocompleter=NULL, classNa
     component <- list(
         props = props,
         type = 'DashAceEditor',
-        namespace = 'dash_ace',
+        namespace = 'my_dash_ace',
         propNames = c('id', 'annotations', 'autocompleter', 'className', 'commands', 'cursorStart', 'debounceChangePeriod', 'editorProps', 'enableBasicAutocompletion', 'enableLiveAutocompletion', 'enableSnippets', 'focus', 'fontSize', 'height', 'highlightActiveLine', 'keyboardHandler', 'markers', 'maxLines', 'minLines', 'mode', 'orientation', 'placeholder', 'prefixLine', 'readOnly', 'selection', 'setOptions', 'showGutter', 'showPrintMargin', 'style', 'syntaxFolds', 'syntaxKeywords', 'tabSize', 'theme', 'triggerCaseInsensitive', 'triggerWords', 'value', 'width', 'wrapEnabled'),
-        package = 'dashAce'
+        package = 'myDashAce'
         )
 
     structure(component, class = c('dash_component', 'list'))

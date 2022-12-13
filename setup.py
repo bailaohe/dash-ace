@@ -5,7 +5,7 @@ from setuptools import setup
 with open('package.json') as f:
     package = json.load(f)
 
-package_name = 'my_' + package["name"].replace(" ", "_").replace("-", "_")
+package_name = package["name"].replace(" ", "_").replace("-", "_")
 
 long_description = """
 # dash ace
@@ -27,7 +27,11 @@ setup(
     python_requires='>=3.6.0',
     url=package['homepage'],
     packages=[package_name],
-    include_package_data=True,
+    package_data = {
+        # If any package contains *.txt or *.rst files, include them:
+        '': ['*.js', '*.map', '*.json'],
+    },
+    #include_package_data=True,
     license=package['license'],
     description=package.get('description', package_name),
     install_requires=[],

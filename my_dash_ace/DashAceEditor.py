@@ -126,7 +126,7 @@ Keyword arguments:
     Wrapping lines."""
     _children_props = []
     _base_nodes = ['children']
-    _namespace = 'dash_ace'
+    _namespace = 'my_dash_ace'
     _type = 'DashAceEditor'
     @_explicitize_args
     def __init__(self, id=Component.UNDEFINED, value=Component.UNDEFINED, selection=Component.UNDEFINED, className=Component.UNDEFINED, placeholder=Component.UNDEFINED, mode=Component.UNDEFINED, syntaxKeywords=Component.UNDEFINED, syntaxFolds=Component.UNDEFINED, theme=Component.UNDEFINED, fontSize=Component.UNDEFINED, focus=Component.UNDEFINED, showGutter=Component.UNDEFINED, showPrintMargin=Component.UNDEFINED, highlightActiveLine=Component.UNDEFINED, cursorStart=Component.UNDEFINED, wrapEnabled=Component.UNDEFINED, readOnly=Component.UNDEFINED, minLines=Component.UNDEFINED, maxLines=Component.UNDEFINED, enableBasicAutocompletion=Component.UNDEFINED, enableLiveAutocompletion=Component.UNDEFINED, autocompleter=Component.UNDEFINED, prefixLine=Component.UNDEFINED, triggerWords=Component.UNDEFINED, triggerCaseInsensitive=Component.UNDEFINED, enableSnippets=Component.UNDEFINED, tabSize=Component.UNDEFINED, debounceChangePeriod=Component.UNDEFINED, editorProps=Component.UNDEFINED, setOptions=Component.UNDEFINED, keyboardHandler=Component.UNDEFINED, commands=Component.UNDEFINED, annotations=Component.UNDEFINED, markers=Component.UNDEFINED, style=Component.UNDEFINED, width=Component.UNDEFINED, height=Component.UNDEFINED, orientation=Component.UNDEFINED, **kwargs):
