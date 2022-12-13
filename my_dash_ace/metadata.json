@@ -94,6 +94,17 @@
           "computed": false
         }
       },
+      "selection": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "The selection range information",
+        "defaultValue": {
+          "value": "{}",
+          "computed": false
+        }
+      },
       "className": {
         "type": {
           "name": "string"
