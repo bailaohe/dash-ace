@@ -94,6 +94,13 @@
           "computed": false
         }
       },
+      "valueStoreKey": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "The key to store editor value, null to disable storing editor value"
+      },
       "selection": {
         "type": {
           "name": "object"

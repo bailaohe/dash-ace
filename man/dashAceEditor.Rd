@@ -23,7 +23,7 @@ readOnly=NULL, selection=NULL, setOptions=NULL,
 showGutter=NULL, showPrintMargin=NULL, style=NULL,
 syntaxFolds=NULL, syntaxKeywords=NULL, tabSize=NULL,
 theme=NULL, triggerCaseInsensitive=NULL, triggerWords=NULL,
-value=NULL, width=NULL, wrapEnabled=NULL)
+value=NULL, valueStoreKey=NULL, width=NULL, wrapEnabled=NULL)
 }
 
 \arguments{
@@ -98,6 +98,8 @@ value=NULL, width=NULL, wrapEnabled=NULL)
 \item{triggerWords}{List of characters. Custom autocompletion trigger words}
 
 \item{value}{Character | list of characters. The value displayed in the input.}
+
+\item{valueStoreKey}{Character. The key to store editor value, null to disable storing editor value}
 
 \item{width}{Character. width, CSS style, e.g., '1000px'}
 

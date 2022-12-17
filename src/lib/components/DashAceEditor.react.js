@@ -9,11 +9,16 @@ import 'ace-builds/src-min-noconflict/ext-spellcheck';
 
 import "ace-builds/src-min-noconflict/mode-python";
 import "ace-builds/src-min-noconflict/mode-sql";
+
 import "ace-builds/src-min-noconflict/theme-github";
 import "ace-builds/src-min-noconflict/theme-monokai";
 import "ace-builds/src-min-noconflict/theme-tomorrow";
 import "ace-builds/src-min-noconflict/theme-twilight";
 import "ace-builds/src-min-noconflict/theme-textmate";
+import "ace-builds/src-min-noconflict/theme-solarized_light";
+import "ace-builds/src-min-noconflict/theme-solarized_dark";
+
+import "ace-builds/src-min-noconflict/keybinding-vim";
 
 import CustomMode from "./CustomPythonMode";
 import './diff_editor.css';
@@ -74,7 +79,7 @@ export default class DashAceEditor extends Component {
     }
 
     render() {
-        const {id, mode, theme, className, value, selection, focus, placeholder, fontSize, showGutter, showPrintMargin,
+        const {id, mode, theme, className, value, valueStoreKey, selection, focus, placeholder, fontSize, showGutter, showPrintMargin,
             highlightActiveLine, cursorStart, wrapEnabled, readOnly, minLines, maxLines, width, height,
             enableBasicAutocompletion, enableLiveAutocompletion, enableSnippets, tabSize, debounceChangePeriod,
             editorProps, setOptions, keyboardHandler, commands, annotations, markers, style, orientation,
@@ -135,8 +140,20 @@ export default class DashAceEditor extends Component {
                 theme={theme}
                 value={value}
 				        className={classnames('container__editor', className)}
-                onChange={code => setProps({ value: code })}
-                onLoad={editor => this.customize(editor)}
+                onChange={code => {
+                        setProps({ value: code });
+                        if (valueStoreKey) {
+                            window.localStorage.setItem(valueStoreKey, value);
+                        }
+                    }
+                }
+                onLoad={editor => {
+                        this.customize(editor);
+                        if (valueStoreKey && valueStoreKey in window.localStorage) {
+                            editor.setValue(window.localStorage.getItem(valueStoreKey));
+                        }
+                    }
+                }
                 onSelectionChange={v => setProps({ selection: v })}
                 name={id}
                 placeholder={placeholder}
@@ -215,6 +232,11 @@ DashAceEditor.propTypes = {
      * The value displayed in the input.
      */
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]),
+
+    /**
+     * The key to store editor value, null to disable storing editor value
+     */
+    valueStoreKey: PropTypes.string,
 
     /**
      * The selection range information
