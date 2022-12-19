@@ -37,32 +37,41 @@ export default class DashAceEditor extends Component {
     customize(editor) {
         const {autocompleter, prefixLine, triggerWords, triggerCaseInsensitive, syntaxKeywords, syntaxFolds} = this.props;
 
-        if (this.props.mode !== 'python' && this.props.mode !== 'javascript' && this.props.mode !== 'sql') {
-            editor.getSession().setMode(new CustomMode(syntaxKeywords, syntaxFolds));
-        }
+        // disable auto python-mode
+//        if (this.props.mode !== 'python' && this.props.mode !== 'javascript' && this.props.mode !== 'sql') {
+//            editor.getSession().setMode(new CustomMode(syntaxKeywords, syntaxFolds));
+//        }
 
         if (autocompleter) {
             const langTools = window.ace.acequire("ace/ext/language_tools");
             const reg = triggerWords? new RegExp(triggerWords.map(w => {return w + "\\s*$"}).join('|'),
                 triggerCaseInsensitive?'i':null) : null;
+            console.log('|ace| reg=' + reg);
             const completer = {
+                identifierRegexps: [/[a-zA-Z_0-9.\$\-\/\*\u00A2-\uFFFF]/],
                 getCompletions: function(editor, session, pos, prefix, callback) {
-                    const line = (prefix.length === 0 && prefixLine) ?
+//                    const line = (prefix.length === 0 && prefixLine) ?
+                    const line = prefixLine ?
                         editor.getValue().split('\n')[pos.row].substring(0, pos.column) : prefix;
+                    console.log('|ace| prefix=' + prefix + ' line=' + line);
                     if (reg === null || reg.test(line)) {
-                        fetch(autocompleter + line)
+                        fetch(autocompleter + prefix + '&line=' + line)
                             .then(response => response.json())
                             .then(wordList => {
+                                console.log('|ace| wordlist=' + JSON.stringify(wordList));
                                 callback(null, wordList);
                             })
                             .catch((error) => {
                                 console.error(error)
+                                callback(null, []);
                             })
                     }
-                    callback(null, []);
+                    // 这里有bug，前面的异步callback会被这里覆盖
+                    // callback(null, []);
                 }
             };
             langTools.addCompleter(completer);
+//            langTools.setCompleters([completer]);
         }
     }
 
@@ -102,7 +111,8 @@ export default class DashAceEditor extends Component {
             return (
                 <DiffEditor
                     ref="aceEditor"
-                    mode={(mode !== 'python' && mode !== 'javascript' && mode !== 'sql')? 'python': mode}
+//                    mode={(mode !== 'python' && mode !== 'javascript' && mode !== 'sql')? 'python': mode}
+                    mode={mode}
                     theme={theme}
                     value={value}
                     className={classnames('container__editor', className)}
@@ -136,21 +146,20 @@ export default class DashAceEditor extends Component {
         return (
             <AceEditor
                 ref="aceEditor"
-                mode={(mode !== 'python' && mode !== 'javascript' && mode !== 'sql')? 'python': mode}
+//                mode={(mode !== 'python' && mode !== 'javascript' && mode !== 'sql')? 'python': mode}
+                mode={mode}
                 theme={theme}
                 value={value}
-				        className={classnames('container__editor', className)}
+				className={classnames('container__editor', className)}
                 onChange={code => {
                         setProps({ value: code });
-                        if (valueStoreKey) {
-                            window.localStorage.setItem(valueStoreKey, value);
-                        }
                     }
                 }
                 onLoad={editor => {
                         this.customize(editor);
                         if (valueStoreKey && valueStoreKey in window.localStorage) {
-                            editor.setValue(window.localStorage.getItem(valueStoreKey));
+                            console.log('|ace| load saved code from localStorage')
+                            editor.setValue(JSON.parse(window.localStorage.getItem(valueStoreKey)));
                         }
                     }
                 }
